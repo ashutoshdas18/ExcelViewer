@@ -21,11 +21,19 @@ app.post('/posted',(req,res)=>{
     form.uploadDir = './'
     form.parse(req,(err,field,files)=>{
     fs.renameSync(__dirname+'/'+files.file.filepath,__dirname+'/'+files.file.newFilename+'.xlsx')
+    try{
     const ws =xl.readFile('./'+files.file.newFilename+'.xlsx')
     const wb =  ws.Sheets[ws.SheetNames[0]]
     let val = xl.utils.sheet_to_json(wb)
     fs.unlinkSync('./'+files.file.newFilename+'.xlsx')
     res.send(JSON.stringify(val))
+    }catch(error){
+        fs.unlinkSync('./'+files.file.newFilename+'.xlsx')
+        console.log("error")
+        res.status(500).send("Error")
+
+    }
+    
 
     })
     

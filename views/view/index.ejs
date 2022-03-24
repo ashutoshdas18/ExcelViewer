@@ -1,97 +1,19 @@
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap');
-*{
-  margin: 0;
-  padding: 0;
-}
-.left{
-  background-image: url('./bg-slider2.jpg');
-  height: 100vh;
-  width: 100vw;
-  background-size: cover;
-}
-table{
-  border-collapse: collapse;
-  overflow: hidden;
-  border-radius: 5px 5px 0 0;
-}
 
-tr:first-child{
-  background-color: #009879;
-  color: white;
-  
-}
-tr:last-child{
-  border-bottom: 1px solid #009879;
-}
-tr:nth-child(2n+3){
-  background-color: #f3f3f3;
-}
-td,th{
-   padding: 15px;
-   font-family: 'Quicksand', sans-serif;
- }
-.formDiv{
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  min-width: 1340px;
-  padding-left: 40px;
-
-}
-.context>h2{
-  color: white;
-  font-family: 'Poppins',sans-serif;
-  font-size: 50px;
-  font-weight: 300;
-  margin-bottom: 20px;
-}
- form{
-   z-index: 5;
-   height: 100px;
-   width: 800px;
-   background-color: white;
-   border-radius: 5px;
-   display: flex;
-   align-items: center;
-   justify-content:space-evenly;
- }
- .submit{
-   padding: 20px 40px;
-   border-radius: 5px;
-   color: white;
-   font-family: 'Poppins',sans-serif;
-   background-color: #F9AB00;
-   border: none;
- }
- #file{
-   display: none;
- }
- #label{
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: 80%;
-  font-size: 14px;
-  font-family: 'Poppins',sans-serif;
-  color: #232323;
- }
- #label>img{
-   margin: 0 20px;
-   height: 40px;
-   width: 40px;
- }
-</style>
+<link rel="stylesheet" href="./css/index.css">
+<div class="block">
+  <div class="loader">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</div>
 <div class="left">
   <%- include ('../partials/header.ejs') %>
 <div class="formDiv">
   <div class="context"><h2>View Your Excel Sheets<br>Effortlessly</h2></div>
   <form action="/posted" method="post" enctype="multipart/form-data">
-  <label for="file" id="label"><img src="./upload.png"> <p class="labelpara">Upload you .xslx file</p></label>
+  <label for="file" id="label"><img src="./upload.png"> <p class="labelpara">Upload your .xslx file</p></label>
   <input type="file" name="file" id="file">
   <input type="submit" class="submit" value="Submit" >
   </form>
@@ -102,46 +24,4 @@ td,th{
 <table></table>
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script>
-    var data,z;
-    let value;
-    let form = document.querySelector('form')
-    let file = document.querySelector('#file')
-    let table = document.querySelector('table')
-    
-    form.addEventListener('submit',e=>{
-        e.preventDefault()
-        data = new window.FormData(form)
-        axios.post("/posted", data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        }
-      }).then(recieved=>{
-        value = recieved.data
-        let tr = document.createElement('tr')
-        tr.className="header"
-        table.appendChild(tr)
-        for(let i of Object.keys(value[0])){
-          let th = document.createElement('th')
-          th.innerHTML = i
-          tr.appendChild(th)
-        }
-        value.forEach(e=>{
-          let tr = document.createElement('tr')
-          table.appendChild(tr)
-          for(let i of Object.values(e)){
-            let td = document.createElement('td')
-            td.innerHTML=i
-            tr.appendChild(td)
-          }
-        })
-
-
-      })
-    })
-    file.addEventListener('change',e=>{
-      z=e.target.value.split('\\')[2]
-      document.querySelector('.labelpara').innerText = z
-      
-    })
-</script>
+<script src="./js/index.js"></script>
